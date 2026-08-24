@@ -1,3 +1,120 @@
-<!doctype html><html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#222"><link rel="manifest" href="manifest.webmanifest"><title>حسابیار</title><style>body{font-family:Tahoma;margin:0;background:#f4f5f7}.wrap{max-width:850px;margin:auto;padding:18px}.card,section{background:white;padding:16px;border-radius:14px;margin:12px 0}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.num{font-size:22px;font-weight:bold;margin-top:7px}.green{color:#087a3e}.red{color:#b42318}input,select,button{font:inherit;padding:11px;border-radius:9px;border:1px solid #ddd}button{background:#222;color:#fff;border:0}.row{display:grid;grid-template-columns:1fr 130px 150px 90px;gap:8px}.quick{display:flex;gap:8px}.quick input{flex:1}table{width:100%;border-collapse:collapse;margin-top:12px}td,th{padding:8px;border-bottom:1px solid #eee;text-align:right;font-size:13px}#install{display:none;background:#087a3e}@media(max-width:650px){.cards{grid-template-columns:1fr}.row{grid-template-columns:1fr 1fr}.row input:first-child{grid-column:1/-1}}</style></head><body><div class="wrap"><h1>حسابیار شخصی</h1><small>آفلاین • درآمد و هزینه • ثبت با جمله فارسی</small><p><button id="install">📱 نصب حسابیار</button></p><div class="cards"><div class="card">موجودی خالص<div id="bal" class="num">۰</div></div><div class="card">درآمد<div id="inc" class="num green">۰</div></div><div class="card">هزینه<div id="exp" class="num red">۰</div></div></div><section><h3>ثبت سریع</h3><div class="quick"><input id="q" placeholder="مثلاً ۵ میلیون خرج سوخت کردم"><button onclick="quickAdd()">ثبت</button></div></section><section><h3>ثبت دستی</h3><div class="row"><input id="d" placeholder="شرح"><select id="t"><option value="income">درآمد</option><option value="expense">هزینه</option></select><input id="a" type="number" placeholder="مبلغ"><button onclick="manual()">ثبت</button></div><p><button onclick="backup()">پشتیبان</button> <button onclick="document.getElementById('file').click()">بازیابی</button><input id="file" type="file" accept=".json" hidden onchange="restore(event)"></p></section><section><h3>تراکنش‌ها</h3><table><thead><tr><th>شرح</th><th>نوع</th><th>مبلغ</th><th>تاریخ</th><th></th></tr></thead><tbody id="list"></tbody></table></section></div><script>
-const K="hesabyar_pwa";let x=JSON.parse(localStorage.getItem(K)||"[]");const fa=n=>new Intl.NumberFormat("fa-IR").format(Math.round(n));function save(){localStorage.setItem(K,JSON.stringify(x));render()}function add(d,t,a){if(!d||!a)return;x.unshift({id:Date.now()+Math.random(),d,t,a:+a,date:new Date().toLocaleDateString("fa-IR")});save()}function manual(){add(d.value.trim(),t.value,a.value);d.value="";a.value=""}function norm(s){return s.replace(/[۰-۹]/g,c=>"۰۱۲۳۴۵۶۷۸۹".indexOf(c)).replace(/[٬,]/g,"")}function money(s){let m=norm(s).match(/(\d+(?:\.\d+)?)\s*(میلیارد|میلیون|هزار)?/);if(!m)return 0;let n=+m[1];if(m[2]=="میلیارد")n*=1e9;if(m[2]=="میلیون")n*=1e6;if(m[2]=="هزار")n*=1e3;return n}function quickAdd(){let s=q.value,n=money(s);if(!n)return alert("مبلغ را متوجه نشدم");let typ=/درآمد|دریافت|فروش|گرفتم|واریز|حقوق/.test(s)?"income":"expense";let desc=s.replace(/[۰-۹0-9٬,]+\s*(میلیارد|میلیون|هزار)?/g,"").replace(/امروز|خرج|هزینه|درآمد|دریافت|فروش|گرفتم|واریز|حقوق|کردم|کرد|دادم/g,"").trim();add(desc||"ثبت سریع",typ,n);q.value=""}function render(){let i=x.filter(z=>z.t=="income").reduce((s,z)=>s+z.a,0),e=x.filter(z=>z.t=="expense").reduce((s,z)=>s+z.a,0);inc.textContent=fa(i);exp.textContent=fa(e);bal.textContent=fa(i-e);list.innerHTML=x.map(z=>`<tr><td>${String(z.d).replace(/[&<>"']/g,"")}</td><td>${z.t=="income"?"درآمد":"هزینه"}</td><td>${fa(z.a)}</td><td>${z.date}</td><td><button onclick="del(${z.id})">حذف</button></td></tr>`).join("")}function del(id){x=x.filter(z=>z.id!=id);save()}function backup(){let b=new Blob([JSON.stringify(x)],{type:"application/json"}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download="hesabyar-backup.json";a.click()}function restore(e){let r=new FileReader();r.onload=()=>{try{x=JSON.parse(r.result);save()}catch{alert("فایل نامعتبر است")}};r.readAsText(e.target.files[0])}render();let dp;addEventListener("beforeinstallprompt",e=>{e.preventDefault();dp=e;install.style.display="inline-block"});install.onclick=async()=>{if(dp){dp.prompt();await dp.userChoice;dp=null;install.style.display="none"}};if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("./sw.js"));
-</script></body></html>
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#056841">
+  <meta name="description" content="حسابیار؛ ثبت ساده درآمد و هزینه شخصی">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icon-192.png">
+  <title>حسابیار شخصی</title>
+  <style>
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Tahoma,Arial,sans-serif;background:#f4f5f7;color:#17231f}
+    .wrap{max-width:520px;margin:auto;min-height:100vh;padding:18px}
+    header{display:flex;align-items:center;gap:12px;margin:8px 0 20px}
+    header img{width:54px;height:54px;border-radius:14px}
+    h1{font-size:23px;margin:0;color:#056841}
+    .sub{font-size:12px;color:#708078;margin-top:4px}
+    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+    .card{background:#fff;border-radius:16px;padding:14px 8px;box-shadow:0 2px 12px #0000000b;text-align:center}
+    .label{font-size:12px;color:#68756f}.value{font-size:16px;font-weight:bold;margin-top:7px}
+    .income .value{color:#079455}.expense .value{color:#d84b3e}
+    .section{background:#fff;border-radius:18px;padding:16px;margin-top:14px;box-shadow:0 2px 12px #0000000b}
+    .section h2{font-size:16px;margin:0 0 14px}
+    label{display:block;font-size:12px;color:#68756f;margin:10px 0 6px}
+    input,select,button{font:inherit}
+    input,select{width:100%;padding:12px;border:1px solid #dce4df;border-radius:11px;background:#fff}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+    button{border:0;border-radius:12px;padding:12px 14px;cursor:pointer}
+    .primary{background:#056841;color:#fff;width:100%;margin-top:12px}
+    .secondary{background:#edf6f1;color:#056841}
+    .item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #eef1ef}
+    .item:last-child{border-bottom:0}
+    .item .name{font-size:14px}.item .date{font-size:11px;color:#87918d;margin-top:4px}
+    .amount{font-weight:bold}.pos{color:#079455}.neg{color:#d84b3e}
+    .empty{color:#8a9590;text-align:center;padding:18px 0;font-size:13px}
+    footer{text-align:center;color:#87918d;font-size:11px;padding:20px}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="./icon-192.png" alt="حسابیار">
+    <div><h1>حسابیار شخصی</h1><div class="sub">ثبت سریع درآمد و هزینه</div></div>
+  </header>
+
+  <div class="cards">
+    <div class="card income"><div class="label">درآمد</div><div id="income" class="value">۰</div></div>
+    <div class="card expense"><div class="label">هزینه</div><div id="expense" class="value">۰</div></div>
+    <div class="card"><div class="label">موجودی خالص</div><div id="balance" class="value">۰</div></div>
+  </div>
+
+  <div class="section">
+    <h2>ثبت تراکنش</h2>
+    <div class="row">
+      <div>
+        <label>نوع</label>
+        <select id="type"><option value="expense">هزینه</option><option value="income">درآمد</option></select>
+      </div>
+      <div>
+        <label>مبلغ (تومان)</label>
+        <input id="amount" type="number" inputmode="numeric" min="0" placeholder="مثلاً ۵۰۰۰۰۰">
+      </div>
+    </div>
+    <label>شرح</label>
+    <input id="note" placeholder="مثلاً خرید مصالح">
+    <button class="primary" onclick="addTransaction()">ثبت تراکنش</button>
+  </div>
+
+  <div class="section">
+    <h2>تراکنش‌های اخیر</h2>
+    <div id="list"></div>
+    <button class="secondary" onclick="clearAll()">پاک کردن همه</button>
+  </div>
+
+  <footer>حسابیار — اطلاعات در همین دستگاه ذخیره می‌شود.</footer>
+</div>
+
+<script>
+const KEY="hesabyar-transactions";
+let data=JSON.parse(localStorage.getItem(KEY)||"[]");
+
+const fmt=n=>new Intl.NumberFormat("fa-IR").format(n);
+function render(){
+  const income=data.filter(x=>x.type==="income").reduce((s,x)=>s+x.amount,0);
+  const expense=data.filter(x=>x.type==="expense").reduce((s,x)=>s+x.amount,0);
+  document.getElementById("income").textContent=fmt(income);
+  document.getElementById("expense").textContent=fmt(expense);
+  document.getElementById("balance").textContent=fmt(income-expense);
+  const list=document.getElementById("list");
+  if(!data.length){list.innerHTML='<div class="empty">هنوز تراکنشی ثبت نشده است.</div>';return}
+  list.innerHTML=data.slice().reverse().map((x,i)=>`
+    <div class="item">
+      <div><div class="name">${escapeHtml(x.note||"بدون شرح")}</div>
+      <div class="date">${x.type==="income"?"درآمد":"هزینه"} — ${x.date}</div></div>
+      <div class="amount ${x.type==="income"?"pos":"neg"}">${x.type==="income"?"+":"-"} ${fmt(x.amount)}</div>
+    </div>`).join("");
+}
+function escapeHtml(s){return s.replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function addTransaction(){
+  const amount=Number(document.getElementById("amount").value);
+  const note=document.getElementById("note").value.trim();
+  const type=document.getElementById("type").value;
+  if(!amount||amount<0){alert("لطفاً مبلغ را وارد کنید.");return}
+  data.push({amount,note,type,date:new Intl.DateTimeFormat("fa-IR",{year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date())});
+  localStorage.setItem(KEY,JSON.stringify(data));
+  document.getElementById("amount").value="";
+  document.getElementById("note").value="";
+  render();
+}
+function clearAll(){
+  if(confirm("همه تراکنش‌ها پاک شوند؟")){
+    data=[];localStorage.removeItem(KEY);render();
+  }
+}
+if("serviceWorker" in navigator) window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js"));
+render();
+</script>
+</body>
+</html>
