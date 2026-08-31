@@ -8,139 +8,1711 @@
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./icon-192.png">
   <title>حسابیار شخصی</title>
+
   <style>
     *{box-sizing:border-box}
-    body{margin:0;font-family:Tahoma,Arial,sans-serif;background:#f4f5f7;color:#17231f}
-    .wrap{max-width:520px;margin:auto;min-height:100vh;padding:18px}
-    header{display:flex;align-items:center;gap:12px;margin:8px 0 20px}
-    header img{width:54px;height:54px;border-radius:14px}
-    h1{font-size:23px;margin:0;color:#056841}
-    .sub{font-size:12px;color:#708078;margin-top:4px}
-    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-    .card{background:#fff;border-radius:16px;padding:14px 8px;box-shadow:0 2px 12px #0000000b;text-align:center}
-    .label{font-size:12px;color:#68756f}.value{font-size:16px;font-weight:bold;margin-top:7px}
-    .income .value{color:#079455}.expense .value{color:#d84b3e}
-    .section{background:#fff;border-radius:18px;padding:16px;margin-top:14px;box-shadow:0 2px 12px #0000000b}
-    .section h2{font-size:16px;margin:0 0 14px}
-    label{display:block;font-size:12px;color:#68756f;margin:10px 0 6px}
-    input,select,button{font:inherit}
-    input,select{width:100%;padding:12px;border:1px solid #dce4df;border-radius:11px;background:#fff}
-    .row{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-    button{border:0;border-radius:12px;padding:12px 14px;cursor:pointer}
-    .primary{background:#056841;color:#fff;width:100%;margin-top:12px}
-    .secondary{background:#edf6f1;color:#056841}
-    .item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #eef1ef}
-    .item:last-child{border-bottom:0}
-    .item .name{font-size:14px}.item .date{font-size:11px;color:#87918d;margin-top:4px}
-    .amount{font-weight:bold}.pos{color:#079455}.neg{color:#d84b3e}
-    .empty{color:#8a9590;text-align:center;padding:18px 0;font-size:13px}
-    footer{text-align:center;color:#87918d;font-size:11px;padding:20px}
-    .auth{position:fixed;inset:0;background:#f4f5f7;display:flex;align-items:center;justify-content:center;padding:18px;z-index:50}
-    .auth-card{width:min(420px,100%);background:#fff;border-radius:22px;padding:24px;box-shadow:0 10px 40px #00000012;text-align:right}
-    .auth-head{text-align:center;margin-bottom:20px}.auth-head img{width:76px;height:76px;border-radius:20px}.auth-head h2{margin:12px 0 5px;color:#056841;font-size:22px}.auth-head p{margin:0;color:#708078;font-size:12px}
-    .auth-error{color:#b42318;font-size:12px;min-height:18px;margin-top:8px}.auth-help{font-size:11px;color:#87918d;line-height:1.8;margin-top:12px}
-    .danger{background:#fff1ef;color:#b42318}.top-actions{display:flex;gap:7px;margin-top:10px;flex-wrap:wrap}.top-actions button{flex:1;min-width:110px}
-    .hidden{display:none!important}
+
+    body{
+      margin:0;
+      font-family:Tahoma,Arial,sans-serif;
+      background:#f4f5f7;
+      color:#17231f
+    }
+
+    .wrap{
+      max-width:520px;
+      margin:auto;
+      min-height:100vh;
+      padding:18px
+    }
+
+    header{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin:8px 0 20px
+    }
+
+    header img{
+      width:54px;
+      height:54px;
+      border-radius:14px
+    }
+
+    h1{
+      font-size:23px;
+      margin:0;
+      color:#056841
+    }
+
+    .sub{
+      font-size:12px;
+      color:#708078;
+      margin-top:4px
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:8px
+    }
+
+    .card{
+      background:#fff;
+      border-radius:16px;
+      padding:14px 8px;
+      box-shadow:0 2px 12px #0000000b;
+      text-align:center
+    }
+
+    .label{
+      font-size:12px;
+      color:#68756f
+    }
+
+    .value{
+      font-size:16px;
+      font-weight:bold;
+      margin-top:7px
+    }
+
+    .income .value{color:#079455}
+    .expense .value{color:#d84b3e}
+
+    .section{
+      background:#fff;
+      border-radius:18px;
+      padding:16px;
+      margin-top:14px;
+      box-shadow:0 2px 12px #0000000b
+    }
+
+    .section h2{
+      font-size:16px;
+      margin:0 0 14px
+    }
+
+    label{
+      display:block;
+      font-size:12px;
+      color:#68756f;
+      margin:10px 0 6px
+    }
+
+    input,select,button{
+      font:inherit
+    }
+
+    input,select{
+      width:100%;
+      padding:12px;
+      border:1px solid #dce4df;
+      border-radius:11px;
+      background:#fff
+    }
+
+    input:focus,select:focus{
+      outline:none;
+      border-color:#056841
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:9px
+    }
+
+    button{
+      border:0;
+      border-radius:12px;
+      padding:12px 14px;
+      cursor:pointer
+    }
+
+    button:active{
+      transform:scale(.98)
+    }
+
+    .primary{
+      background:#056841;
+      color:#fff;
+      width:100%;
+      margin-top:12px
+    }
+
+    .secondary{
+      background:#edf6f1;
+      color:#056841
+    }
+
+    .item{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:12px 0;
+      border-bottom:1px solid #eef1ef;
+      gap:10px
+    }
+
+    .item:last-child{
+      border-bottom:0
+    }
+
+    .item .name{
+      font-size:14px
+    }
+
+    .item .date{
+      font-size:11px;
+      color:#87918d;
+      margin-top:4px
+    }
+
+    .amount{
+      font-weight:bold;
+      white-space:nowrap
+    }
+
+    .pos{color:#079455}
+    .neg{color:#d84b3e}
+
+    .empty{
+      color:#8a9590;
+      text-align:center;
+      padding:18px 0;
+      font-size:13px
+    }
+
+    footer{
+      text-align:center;
+      color:#87918d;
+      font-size:11px;
+      padding:20px
+    }
+
+    .auth{
+      position:fixed;
+      inset:0;
+      background:#f4f5f7;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      z-index:50
+    }
+
+    .auth-card{
+      width:min(420px,100%);
+      background:#fff;
+      border-radius:22px;
+      padding:24px;
+      box-shadow:0 10px 40px #00000012;
+      text-align:right
+    }
+
+    .auth-head{
+      text-align:center;
+      margin-bottom:20px
+    }
+
+    .auth-head img{
+      width:76px;
+      height:76px;
+      border-radius:20px
+    }
+
+    .auth-head h2{
+      margin:12px 0 5px;
+      color:#056841;
+      font-size:22px
+    }
+
+    .auth-head p{
+      margin:0;
+      color:#708078;
+      font-size:12px
+    }
+
+    .auth-error{
+      color:#b42318;
+      font-size:12px;
+      min-height:18px;
+      margin-top:8px
+    }
+
+    .auth-help{
+      font-size:11px;
+      color:#87918d;
+      line-height:1.8;
+      margin-top:12px
+    }
+
+    .danger{
+      background:#fff1ef;
+      color:#b42318
+    }
+
+    .top-actions{
+      display:flex;
+      gap:7px;
+      margin-top:10px;
+      flex-wrap:wrap
+    }
+
+    .top-actions button{
+      flex:1;
+      min-width:110px
+    }
+
+    .hidden{
+      display:none!important
+    }
+
+    .modal{
+      position:fixed;
+      inset:0;
+      background:#00000055;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      z-index:100
+    }
+
+    .modal-card{
+      width:min(420px,100%);
+      background:#fff;
+      border-radius:20px;
+      padding:20px;
+      box-shadow:0 10px 40px #00000022
+    }
+
+    .modal-card h3{
+      margin:0 0 15px;
+      color:#056841;
+      font-size:18px
+    }
+
+    .modal-actions{
+      display:flex;
+      gap:8px;
+      margin-top:15px
+    }
+
+    .modal-actions button{
+      flex:1
+    }
+
+    .status{
+      text-align:center;
+      font-size:12px;
+      min-height:18px;
+      margin-top:8px
+    }
+
+    @media(max-width:380px){
+      .cards{
+        grid-template-columns:1fr
+      }
+
+      .top-actions button{
+        min-width:45%
+      }
+    }
   </style>
 </head>
+
 <body>
+
+<!-- صفحه ورود -->
 <div id="auth" class="auth">
   <div class="auth-card">
-    <div class="auth-head"><img src="./icon-192.png" alt="حسابیار"><h2>حسابیار</h2><p id="authTitle">برای ورود، رمز عبور را وارد کنید</p></div>
-    <div id="setupHint" class="auth-help hidden">در اولین اجرا یک رمز برای حسابیار تعیین کنید. رمز فقط به‌صورت اثر رمزنگاری‌شده روی همین دستگاه نگهداری می‌شود.</div>
+
+    <div class="auth-head">
+      <img src="./icon-192.png" alt="حسابیار">
+      <h2>حسابیار</h2>
+      <p id="authTitle">برای ورود، رمز عبور را وارد کنید</p>
+    </div>
+
+    <div id="setupHint" class="auth-help hidden">
+      در اولین اجرا یک رمز برای حسابیار تعیین کنید.
+      رمز به‌صورت متن ساده ذخیره نمی‌شود و فقط اثر رمزنگاری‌شده آن
+      روی همین دستگاه نگهداری می‌شود.
+    </div>
+
     <label for="password">رمز عبور</label>
-    <input id="password" type="password" autocomplete="current-password" placeholder="حداقل ۴ کاراکتر">
-    <label id="confirmLabel" class="hidden" for="password2">تکرار رمز عبور</label>
-    <input id="password2" class="hidden" type="password" autocomplete="new-password" placeholder="رمز را دوباره وارد کنید">
+    <input
+      id="password"
+      type="password"
+      autocomplete="current-password"
+      placeholder="حداقل ۴ کاراکتر"
+    >
+
+    <label id="confirmLabel" class="hidden" for="password2">
+      تکرار رمز عبور
+    </label>
+
+    <input
+      id="password2"
+      class="hidden"
+      type="password"
+      autocomplete="new-password"
+      placeholder="رمز را دوباره وارد کنید"
+    >
+
     <div id="authError" class="auth-error"></div>
-    <button id="authBtn" class="primary" onclick="handleAuth()">ورود</button>
-    <div id="resetHelp" class="auth-help hidden">اگر رمز را فراموش کرده‌اید، تنها راه بازیابی در این نسخه، پاک‌کردن اطلاعات برنامه از تنظیمات مرورگر است؛ این کار تراکنش‌ها را هم پاک می‌کند.</div>
+
+    <button id="authBtn" class="primary" onclick="handleAuth()">
+      ورود
+    </button>
+
+    <div id="resetHelp" class="auth-help hidden">
+      اگر رمز را فراموش کرده‌اید، در این نسخه امکان بازیابی رمز وجود ندارد.
+      پاک‌کردن اطلاعات سایت/برنامه باعث حذف تراکنش‌ها نیز می‌شود.
+      قبل از هر تغییر مهم از بخش «پشتیبان» فایل JSON تهیه کنید.
+    </div>
+
   </div>
 </div>
-<div class="wrap">
+
+
+<!-- برنامه اصلی -->
+<div id="app" class="wrap hidden">
+
   <header>
     <img src="./icon-192.png" alt="حسابیار">
-    <div><h1>حسابیار شخصی</h1><div class="sub">ثبت سریع درآمد و هزینه</div></div>
-  </header>
-  <div class="top-actions">
-    <button class="secondary" onclick="lockApp()">🔒 قفل برنامه</button>
-    <button class="secondary" onclick="changePassword()">🔑 تغییر رمز</button>
-    <button class="secondary" onclick="backup()">💾 پشتیبان</button>
-    <button class="secondary" onclick="document.getElementById('restore').click()">↩️ بازیابی</button>
-    <input id="restore" type="file" accept=".json" hidden onchange="restore(event)">
-  </div>
 
-  <div class="cards">
-    <div class="card income"><div class="label">درآمد</div><div id="income" class="value">۰</div></div>
-    <div class="card expense"><div class="label">هزینه</div><div id="expense" class="value">۰</div></div>
-    <div class="card"><div class="label">موجودی خالص</div><div id="balance" class="value">۰</div></div>
-  </div>
-
-  <div class="section">
-    <h2>ثبت تراکنش</h2>
-    <div class="row">
-      <div>
-        <label>نوع</label>
-        <select id="type"><option value="expense">هزینه</option><option value="income">درآمد</option></select>
-      </div>
-      <div>
-        <label>مبلغ (تومان)</label>
-        <input id="amount" type="number" inputmode="numeric" min="0" placeholder="مثلاً ۵۰۰۰۰۰">
-      </div>
+    <div>
+      <h1>حسابیار شخصی</h1>
+      <div class="sub">ثبت سریع درآمد و هزینه</div>
     </div>
-    <label>شرح</label>
-    <input id="note" placeholder="مثلاً خرید مصالح">
-    <button class="primary" onclick="addTransaction()">ثبت تراکنش</button>
+  </header>
+
+
+  <!-- عملیات -->
+  <div class="top-actions">
+
+    <button class="secondary" onclick="lockApp()">
+      🔒 قفل برنامه
+    </button>
+
+    <button class="secondary" onclick="changePassword()">
+      🔑 تغییر رمز
+    </button>
+
+    <button class="secondary" onclick="backup()">
+      💾 پشتیبان
+    </button>
+
+    <button class="secondary" onclick="document.getElementById('restore').click()">
+      ↩️ بازیابی
+    </button>
+
+    <input
+      id="restore"
+      type="file"
+      accept=".json,application/json"
+      hidden
+      onchange="restore(event)"
+    >
+
   </div>
 
+
+  <!-- خلاصه حساب -->
+  <div class="cards">
+
+    <div class="card income">
+      <div class="label">درآمد</div>
+      <div id="income" class="value">۰</div>
+    </div>
+
+    <div class="card expense">
+      <div class="label">هزینه</div>
+      <div id="expense" class="value">۰</div>
+    </div>
+
+    <div class="card">
+      <div class="label">موجودی خالص</div>
+      <div id="balance" class="value">۰</div>
+    </div>
+
+  </div>
+
+
+  <!-- ثبت تراکنش -->
   <div class="section">
-    <h2>تراکنش‌های اخیر</h2>
-    <div id="list"></div>
-    <button class="secondary danger" onclick="clearAll()">پاک کردن همه</button>
+
+    <h2>ثبت تراکنش</h2>
+
+    <div class="row">
+
+      <div>
+        <label for="type">نوع</label>
+
+        <select id="type">
+          <option value="expense">هزینه</option>
+          <option value="income">درآمد</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="amount">مبلغ (تومان)</label>
+
+        <input
+          id="amount"
+          type="number"
+          inputmode="numeric"
+          min="0"
+          step="1"
+          placeholder="مثلاً ۵۰۰۰۰۰"
+        >
+      </div>
+
+    </div>
+
+    <label for="note">شرح</label>
+
+    <input
+      id="note"
+      maxlength="200"
+      placeholder="مثلاً خرید مصالح"
+    >
+
+    <button class="primary" onclick="addTransaction()">
+      ثبت تراکنش
+    </button>
+
   </div>
 
-  <footer>حسابیار — اطلاعات در همین دستگاه ذخیره می‌شود.</footer>
+
+  <!-- تراکنش‌ها -->
+  <div class="section">
+
+    <h2>تراکنش‌های اخیر</h2>
+
+    <div id="list"></div>
+
+    <button class="secondary danger" onclick="clearAll()">
+      پاک کردن همه
+    </button>
+
+  </div>
+
+
+  <footer>
+    حسابیار — اطلاعات روی همین دستگاه ذخیره می‌شود.
+  </footer>
+
 </div>
 
-<script>
-const KEY="hesabyar-transactions";
-let data=JSON.parse(localStorage.getItem(KEY)||"[]");
 
-const fmt=n=>new Intl.NumberFormat("fa-IR").format(n);
-function render(){
-  const income=data.filter(x=>x.type==="income").reduce((s,x)=>s+x.amount,0);
-  const expense=data.filter(x=>x.type==="expense").reduce((s,x)=>s+x.amount,0);
-  document.getElementById("income").textContent=fmt(income);
-  document.getElementById("expense").textContent=fmt(expense);
-  document.getElementById("balance").textContent=fmt(income-expense);
-  const list=document.getElementById("list");
-  if(!data.length){list.innerHTML='<div class="empty">هنوز تراکنشی ثبت نشده است.</div>';return}
-  list.innerHTML=data.slice().reverse().map((x,i)=>`
-    <div class="item">
-      <div><div class="name">${escapeHtml(x.note||"بدون شرح")}</div>
-      <div class="date">${x.type==="income"?"درآمد":"هزینه"} — ${x.date}</div></div>
-      <div class="amount ${x.type==="income"?"pos":"neg"}">${x.type==="income"?"+":"-"} ${fmt(x.amount)}</div>
-    </div>`).join("");
-}
-function escapeHtml(s){return s.replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
-function addTransaction(){
-  const amount=Number(document.getElementById("amount").value);
-  const note=document.getElementById("note").value.trim();
-  const type=document.getElementById("type").value;
-  if(!amount||amount<0){alert("لطفاً مبلغ را وارد کنید.");return}
-  data.push({amount,note,type,date:new Intl.DateTimeFormat("fa-IR",{year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date())});
-  localStorage.setItem(KEY,JSON.stringify(data));
-  document.getElementById("amount").value="";
-  document.getElementById("note").value="";
-  render();
-}
-function clearAll(){
-  if(confirm("همه تراکنش‌ها پاک شوند؟")){
-    data=[];localStorage.removeItem(KEY);render();
+<!-- پنجره تغییر رمز -->
+<div id="passwordModal" class="modal hidden">
+
+  <div class="modal-card">
+
+    <h3>تغییر رمز عبور</h3>
+
+    <label for="oldPassword">رمز فعلی</label>
+    <input
+      id="oldPassword"
+      type="password"
+      autocomplete="current-password"
+      placeholder="رمز فعلی"
+    >
+
+    <label for="newPassword">رمز جدید</label>
+    <input
+      id="newPassword"
+      type="password"
+      autocomplete="new-password"
+      placeholder="حداقل ۴ کاراکتر"
+    >
+
+    <label for="newPassword2">تکرار رمز جدید</label>
+    <input
+      id="newPassword2"
+      type="password"
+      autocomplete="new-password"
+      placeholder="تکرار رمز جدید"
+    >
+
+    <div id="passwordStatus" class="status"></div>
+
+    <div class="modal-actions">
+
+      <button class="secondary" onclick="closePasswordModal()">
+        انصراف
+      </button>
+
+      <button class="primary" onclick="saveNewPassword()">
+        ذخیره رمز جدید
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   حسابیار
+   ========================================================= */
+
+
+/* ---------- کلیدهای ذخیره‌سازی ---------- */
+
+const KEY = "hesabyar-transactions";
+
+const AUTH_KEY = "hesabyar-auth";
+
+const PBKDF2_ITERATIONS = 150000;
+
+
+/* ---------- متغیرهای اصلی ---------- */
+
+let data = [];
+
+let isUnlocked = false;
+
+let authMode = "login";
+
+
+/* ---------- ابزارهای عمومی ---------- */
+
+const fmt = n =>
+  new Intl.NumberFormat("fa-IR").format(n);
+
+
+function loadTransactions(){
+
+  try{
+
+    const saved = localStorage.getItem(KEY);
+
+    data = saved ? JSON.parse(saved) : [];
+
+    if(!Array.isArray(data)){
+      data = [];
+    }
+
+  }catch(e){
+
+    console.error(e);
+
+    data = [];
+
   }
+
 }
-if("serviceWorker" in navigator) window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js"));
-render();
+
+
+function saveTransactions(){
+
+  localStorage.setItem(KEY, JSON.stringify(data));
+
+}
+
+
+/* =========================================================
+   رمزنگاری
+   ========================================================= */
+
+
+/* تولید Salt تصادفی */
+
+function randomBytes(length){
+
+  const bytes = new Uint8Array(length);
+
+  crypto.getRandomValues(bytes);
+
+  return bytes;
+
+}
+
+
+/* تبدیل ArrayBuffer به Base64 */
+
+function bufferToBase64(buffer){
+
+  const bytes = new Uint8Array(buffer);
+
+  let binary = "";
+
+  for(let i = 0; i < bytes.length; i++){
+
+    binary += String.fromCharCode(bytes[i]);
+
+  }
+
+  return btoa(binary);
+
+}
+
+
+/* تبدیل Base64 به ArrayBuffer */
+
+function base64ToBuffer(base64){
+
+  const binary = atob(base64);
+
+  const bytes = new Uint8Array(binary.length);
+
+  for(let i = 0; i < binary.length; i++){
+
+    bytes[i] = binary.charCodeAt(i);
+
+  }
+
+  return bytes.buffer;
+
+}
+
+
+/* ساخت اثر رمز با PBKDF2/SHA-256 */
+
+async function derivePasswordHash(password, salt){
+
+  const encoder = new TextEncoder();
+
+  const passwordKey = await crypto.subtle.importKey(
+    "raw",
+    encoder.encode(password),
+    "PBKDF2",
+    false,
+    ["deriveBits"]
+  );
+
+  const bits = await crypto.subtle.deriveBits(
+    {
+      name:"PBKDF2",
+      salt:salt,
+      iterations:PBKDF2_ITERATIONS,
+      hash:"SHA-256"
+    },
+    passwordKey,
+    256
+  );
+
+  return bufferToBase64(bits);
+
+}
+
+
+/* ساخت اطلاعات رمز جدید */
+
+async function createAuthRecord(password){
+
+  const salt = randomBytes(16);
+
+  const hash = await derivePasswordHash(
+    password,
+    salt
+  );
+
+  return {
+    version:1,
+    algorithm:"PBKDF2-SHA-256",
+    iterations:PBKDF2_ITERATIONS,
+    salt:bufferToBase64(salt),
+    hash:hash
+  };
+
+}
+
+
+/* بررسی رمز */
+
+async function verifyPassword(password, record){
+
+  try{
+
+    const salt = base64ToBuffer(record.salt);
+
+    const hash = await derivePasswordHash(
+      password,
+      salt
+    );
+
+    return hash === record.hash;
+
+  }catch(e){
+
+    console.error(e);
+
+    return false;
+
+  }
+
+}
+
+
+/* =========================================================
+   صفحه ورود
+   ========================================================= */
+
+
+/* بررسی اینکه رمز قبلاً تنظیم شده یا نه */
+
+function hasPassword(){
+
+  return !!localStorage.getItem(AUTH_KEY);
+
+}
+
+
+/* آماده‌سازی صفحه ورود */
+
+function setupAuth(){
+
+  const auth = document.getElementById("auth");
+
+  const app = document.getElementById("app");
+
+  const title = document.getElementById("authTitle");
+
+  const hint = document.getElementById("setupHint");
+
+  const confirmLabel = document.getElementById("confirmLabel");
+
+  const password2 = document.getElementById("password2");
+
+  const authBtn = document.getElementById("authBtn");
+
+  const resetHelp = document.getElementById("resetHelp");
+
+  if(hasPassword()){
+
+    authMode = "login";
+
+    title.textContent =
+      "برای ورود، رمز عبور را وارد کنید";
+
+    hint.classList.add("hidden");
+
+    confirmLabel.classList.add("hidden");
+
+    password2.classList.add("hidden");
+
+    authBtn.textContent = "ورود";
+
+    resetHelp.classList.remove("hidden");
+
+  }else{
+
+    authMode = "setup";
+
+    title.textContent =
+      "برای شروع، یک رمز عبور تعیین کنید";
+
+    hint.classList.remove("hidden");
+
+    confirmLabel.classList.remove("hidden");
+
+    password2.classList.remove("hidden");
+
+    authBtn.textContent = "تعیین رمز";
+
+    resetHelp.classList.add("hidden");
+
+  }
+
+  auth.classList.remove("hidden");
+
+  app.classList.add("hidden");
+
+  setTimeout(() => {
+    document.getElementById("password").focus();
+  },100);
+
+}
+
+
+/* ورود یا تعیین رمز */
+
+async function handleAuth(){
+
+  const password =
+    document.getElementById("password").value;
+
+  const password2 =
+    document.getElementById("password2").value;
+
+  const error =
+    document.getElementById("authError");
+
+  const button =
+    document.getElementById("authBtn");
+
+  error.textContent = "";
+
+
+  /* حداقل طول */
+
+  if(password.length < 4){
+
+    error.textContent =
+      "رمز عبور باید حداقل ۴ کاراکتر باشد.";
+
+    return;
+
+  }
+
+
+  /* اولین اجرا */
+
+  if(authMode === "setup"){
+
+    if(password !== password2){
+
+      error.textContent =
+        "رمزهای واردشده یکسان نیستند.";
+
+      return;
+
+    }
+
+    button.disabled = true;
+
+    button.textContent = "در حال ساخت رمز...";
+
+    try{
+
+      const record =
+        await createAuthRecord(password);
+
+      localStorage.setItem(
+        AUTH_KEY,
+        JSON.stringify(record)
+      );
+
+      document.getElementById("password").value = "";
+
+      password2.value = "";
+
+      unlockApp();
+
+    }catch(e){
+
+      console.error(e);
+
+      error.textContent =
+        "خطایی هنگام ایجاد رمز رخ داد.";
+
+    }finally{
+
+      button.disabled = false;
+
+      button.textContent = "تعیین رمز";
+
+    }
+
+    return;
+
+  }
+
+
+  /* ورود عادی */
+
+  const raw =
+    localStorage.getItem(AUTH_KEY);
+
+  if(!raw){
+
+    setupAuth();
+
+    return;
+
+  }
+
+  let record;
+
+  try{
+
+    record = JSON.parse(raw);
+
+  }catch(e){
+
+    error.textContent =
+      "اطلاعات رمز آسیب دیده است.";
+
+    return;
+
+  }
+
+  button.disabled = true;
+
+  button.textContent = "در حال بررسی...";
+
+  const valid =
+    await verifyPassword(password, record);
+
+  button.disabled = false;
+
+  button.textContent = "ورود";
+
+  if(!valid){
+
+    error.textContent =
+      "رمز عبور اشتباه است.";
+
+    document.getElementById("password").value = "";
+
+    return;
+
+  }
+
+  document.getElementById("password").value = "";
+
+  unlockApp();
+
+}
+
+
+/* باز کردن برنامه */
+
+function unlockApp(){
+
+  isUnlocked = true;
+
+  document.getElementById("auth").classList.add("hidden");
+
+  document.getElementById("app").classList.remove("hidden");
+
+  loadTransactions();
+
+  render();
+
+}
+
+
+/* قفل کردن برنامه */
+
+function lockApp(){
+
+  isUnlocked = false;
+
+  document.getElementById("password").value = "";
+
+  document.getElementById("authError").textContent = "";
+
+  setupAuth();
+
+}
+
+
+/* =========================================================
+   تراکنش‌ها
+   ========================================================= */
+
+
+/* نمایش اطلاعات */
+
+function render(){
+
+  if(!isUnlocked){
+    return;
+  }
+
+  const income =
+    data
+      .filter(x => x.type === "income")
+      .reduce((s,x) => s + Number(x.amount || 0),0);
+
+  const expense =
+    data
+      .filter(x => x.type === "expense")
+      .reduce((s,x) => s + Number(x.amount || 0),0);
+
+  document.getElementById("income").textContent =
+    fmt(income);
+
+  document.getElementById("expense").textContent =
+    fmt(expense);
+
+  document.getElementById("balance").textContent =
+    fmt(income - expense);
+
+
+  const list =
+    document.getElementById("list");
+
+
+  if(!data.length){
+
+    list.innerHTML =
+      '<div class="empty">هنوز تراکنشی ثبت نشده است.</div>';
+
+    return;
+
+  }
+
+
+  list.innerHTML =
+    data
+      .slice()
+      .reverse()
+      .map(x => `
+
+        <div class="item">
+
+          <div>
+
+            <div class="name">
+              ${escapeHtml(x.note || "بدون شرح")}
+            </div>
+
+            <div class="date">
+              ${x.type === "income" ? "درآمد" : "هزینه"}
+              — ${escapeHtml(x.date || "")}
+            </div>
+
+          </div>
+
+          <div class="amount ${x.type === "income" ? "pos" : "neg"}">
+
+            ${x.type === "income" ? "+" : "-"}
+            ${fmt(Number(x.amount || 0))}
+
+          </div>
+
+        </div>
+
+      `)
+      .join("");
+
+}
+
+
+/* جلوگیری از ورود HTML در شرح */
+
+function escapeHtml(s){
+
+  return String(s).replace(
+    /[&<>"']/g,
+    m => ({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#039;"
+    }[m])
+  );
+
+}
+
+
+/* ثبت تراکنش */
+
+function addTransaction(){
+
+  if(!isUnlocked){
+
+    setupAuth();
+
+    return;
+
+  }
+
+  const amount =
+    Number(
+      document.getElementById("amount").value
+    );
+
+  const note =
+    document.getElementById("note").value.trim();
+
+  const type =
+    document.getElementById("type").value;
+
+
+  if(!Number.isFinite(amount) || amount <= 0){
+
+    alert("لطفاً مبلغ صحیح را وارد کنید.");
+
+    return;
+
+  }
+
+
+  data.push({
+
+    id:
+      Date.now().toString() +
+      Math.random().toString(36).slice(2),
+
+    amount:amount,
+
+    note:note,
+
+    type:type,
+
+    date:
+      new Intl.DateTimeFormat(
+        "fa-IR",
+        {
+          year:"numeric",
+          month:"2-digit",
+          day:"2-digit"
+        }
+      ).format(new Date())
+
+  });
+
+
+  saveTransactions();
+
+
+  document.getElementById("amount").value = "";
+
+  document.getElementById("note").value = "";
+
+  render();
+
+}
+
+
+/* پاک کردن همه تراکنش‌ها */
+
+function clearAll(){
+
+  if(!isUnlocked){
+    setupAuth();
+    return;
+  }
+
+  if(!data.length){
+
+    alert("تراکنشی برای پاک کردن وجود ندارد.");
+
+    return;
+
+  }
+
+
+  if(
+    confirm(
+      "همه تراکنش‌ها پاک شوند؟\nاین عملیات قابل بازگشت نیست."
+    )
+  ){
+
+    data = [];
+
+    localStorage.removeItem(KEY);
+
+    render();
+
+  }
+
+}
+
+
+/* =========================================================
+   تغییر رمز
+   ========================================================= */
+
+
+/* نمایش پنجره */
+
+function changePassword(){
+
+  if(!isUnlocked){
+
+    setupAuth();
+
+    return;
+
+  }
+
+  document.getElementById("oldPassword").value = "";
+
+  document.getElementById("newPassword").value = "";
+
+  document.getElementById("newPassword2").value = "";
+
+  document.getElementById("passwordStatus").textContent = "";
+
+  document
+    .getElementById("passwordModal")
+    .classList.remove("hidden");
+
+}
+
+
+/* بستن پنجره */
+
+function closePasswordModal(){
+
+  document
+    .getElementById("passwordModal")
+    .classList.add("hidden");
+
+}
+
+
+/* ذخیره رمز جدید */
+
+async function saveNewPassword(){
+
+  const oldPassword =
+    document.getElementById("oldPassword").value;
+
+  const newPassword =
+    document.getElementById("newPassword").value;
+
+  const newPassword2 =
+    document.getElementById("newPassword2").value;
+
+  const status =
+    document.getElementById("passwordStatus");
+
+
+  status.textContent = "";
+
+
+  if(oldPassword.length < 4){
+
+    status.textContent =
+      "رمز فعلی را وارد کنید.";
+
+    return;
+
+  }
+
+
+  if(newPassword.length < 4){
+
+    status.textContent =
+      "رمز جدید باید حداقل ۴ کاراکتر باشد.";
+
+    return;
+
+  }
+
+
+  if(newPassword !== newPassword2){
+
+    status.textContent =
+      "رمزهای جدید یکسان نیستند.";
+
+    return;
+
+  }
+
+
+  if(oldPassword === newPassword){
+
+    status.textContent =
+      "رمز جدید باید با رمز فعلی متفاوت باشد.";
+
+    return;
+
+  }
+
+
+  const raw =
+    localStorage.getItem(AUTH_KEY);
+
+  if(!raw){
+
+    status.textContent =
+      "اطلاعات رمز پیدا نشد.";
+
+    return;
+
+  }
+
+
+  let record;
+
+  try{
+
+    record = JSON.parse(raw);
+
+  }catch(e){
+
+    status.textContent =
+      "اطلاعات رمز آسیب دیده است.";
+
+    return;
+
+  }
+
+
+  status.textContent =
+    "در حال بررسی رمز فعلی...";
+
+
+  const valid =
+    await verifyPassword(
+      oldPassword,
+      record
+    );
+
+
+  if(!valid){
+
+    status.textContent =
+      "رمز فعلی اشتباه است.";
+
+    return;
+
+  }
+
+
+  status.textContent =
+    "در حال ایجاد رمز جدید...";
+
+
+  try{
+
+    const newRecord =
+      await createAuthRecord(newPassword);
+
+    localStorage.setItem(
+      AUTH_KEY,
+      JSON.stringify(newRecord)
+    );
+
+    status.textContent =
+      "رمز با موفقیت تغییر کرد.";
+
+    setTimeout(
+      closePasswordModal,
+      900
+    );
+
+  }catch(e){
+
+    console.error(e);
+
+    status.textContent =
+      "خطایی هنگام تغییر رمز رخ داد.";
+
+  }
+
+}
+
+
+/* =========================================================
+   پشتیبان‌گیری
+   ========================================================= */
+
+
+/* گرفتن فایل JSON */
+
+function backup(){
+
+  if(!isUnlocked){
+
+    setupAuth();
+
+    return;
+
+  }
+
+
+  const backupData = {
+
+    app:"Hesabyar",
+
+    version:2,
+
+    exportedAt:
+      new Date().toISOString(),
+
+    transactions:data
+
+  };
+
+
+  const json =
+    JSON.stringify(
+      backupData,
+      null,
+      2
+    );
+
+
+  const blob =
+    new Blob(
+      [json],
+      {
+        type:"application/json;charset=utf-8"
+      }
+    );
+
+
+  const url =
+    URL.createObjectURL(blob);
+
+
+  const a =
+    document.createElement("a");
+
+  const date =
+    new Date()
+      .toISOString()
+      .slice(0,10);
+
+
+  a.href = url;
+
+  a.download =
+    `hesabyar-backup-${date}.json`;
+
+  document.body.appendChild(a);
+
+  a.click();
+
+  a.remove();
+
+  setTimeout(
+    () => URL.revokeObjectURL(url),
+    1000
+  );
+
+}
+
+
+/* =========================================================
+   بازیابی
+   ========================================================= */
+
+
+async function restore(event){
+
+  if(!isUnlocked){
+
+    setupAuth();
+
+    return;
+
+  }
+
+
+  const file =
+    event.target.files &&
+    event.target.files[0];
+
+
+  /* اجازه انتخاب دوباره همان فایل */
+
+  event.target.value = "";
+
+
+  if(!file){
+    return;
+  }
+
+
+  try{
+
+    const text =
+      await file.text();
+
+    const parsed =
+      JSON.parse(text);
+
+
+    let transactions;
+
+
+    /* فرمت نسخه جدید */
+
+    if(
+      parsed &&
+      Array.isArray(parsed.transactions)
+    ){
+
+      transactions =
+        parsed.transactions;
+
+    }
+
+    /* پشتیبانی از فایل آرایه‌ای قدیمی */
+
+    else if(
+      Array.isArray(parsed)
+    ){
+
+      transactions =
+        parsed;
+
+    }
+
+    else{
+
+      throw new Error(
+        "invalid-format"
+      );
+
+    }
+
+
+    /* اعتبارسنجی تراکنش‌ها */
+
+    const clean =
+      transactions
+        .filter(x =>
+          x &&
+          (x.type === "income" ||
+           x.type === "expense") &&
+          Number.isFinite(Number(x.amount)) &&
+          Number(x.amount) > 0
+        )
+        .map(x => ({
+
+          id:
+            x.id ||
+            Date.now().toString() +
+            Math.random().toString(36).slice(2),
+
+          amount:Number(x.amount),
+
+          note:
+            String(x.note || "").slice(0,200),
+
+          type:x.type,
+
+          date:
+            String(x.date || "")
+
+        }));
+
+
+    if(
+      !confirm(
+        `تعداد ${fmt(clean.length)} تراکنش از فایل پشتیبان پیدا شد.\n\n` +
+        "تراکنش‌های فعلی با این اطلاعات جایگزین شوند؟"
+      )
+    ){
+
+      return;
+
+    }
+
+
+    data = clean;
+
+    saveTransactions();
+
+    render();
+
+
+    alert(
+      `بازیابی با موفقیت انجام شد.\n` +
+      `${fmt(clean.length)} تراکنش بازیابی شد.`
+    );
+
+
+  }catch(e){
+
+    console.error(e);
+
+    alert(
+      "فایل پشتیبان معتبر نیست یا قابل خواندن نیست."
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   صفحه‌کلید
+   ========================================================= */
+
+
+/* Enter در صفحه ورود */
+
+document
+  .getElementById("password")
+  .addEventListener(
+    "keydown",
+    e => {
+
+      if(e.key === "Enter"){
+
+        handleAuth();
+
+      }
+
+    }
+  );
+
+
+document
+  .getElementById("password2")
+  .addEventListener(
+    "keydown",
+    e => {
+
+      if(e.key === "Enter"){
+
+        handleAuth();
+
+      }
+
+    }
+  );
+
+
+/* Escape برای بستن پنجره تغییر رمز */
+
+document.addEventListener(
+  "keydown",
+  e => {
+
+    if(e.key === "Escape"){
+
+      closePasswordModal();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   شروع برنامه
+   ========================================================= */
+
+
+loadTransactions();
+
+setupAuth();
+
+
+/* Service Worker */
+
+if("serviceWorker" in navigator){
+
+  window.addEventListener(
+    "load",
+    () => {
+
+      navigator.serviceWorker
+        .register("./sw.js")
+        .catch(
+          err =>
+            console.error(
+              "Service Worker error:",
+              err
+            )
+        );
+
+    }
+  );
+
+}
+
 </script>
+
 </body>
 </html>
